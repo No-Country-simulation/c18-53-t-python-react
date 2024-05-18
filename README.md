@@ -1,6 +1,6 @@
 # c18-53-t-python-react
 
-INTEGRANTES
+INTEGRANTES.
 
 Frontend:
 -
