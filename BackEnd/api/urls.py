@@ -6,7 +6,7 @@ from .view.BrandView import BrandViewSet
 urlpatterns = [
     # path('auth/register',views.UserRegisterView.as_view(),name="user_register"),#Registrar un usuario
     #path('api/product', ProductViewSet.as_view({'get': 'list', 'post': 'create'}), name="product")
-    path('product', ProductViewSet.as_view({'get': 'list', 'post': 'create'}), name="product-list"),  
+    path('product/', ProductViewSet.as_view({'get': 'list', 'post': 'create'}), name="product-list"),  
     path('product/<int:pk>', ProductViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name="product"),
 
     path('category/', CategoryViewSet.as_view({'get': 'list', 'post': 'create'}), name='category-list'),
