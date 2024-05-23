@@ -1,10 +1,9 @@
-from rest_framework.response import Response
-from rest_framework import serializers
-from rest_framework import generics , permissions, status
-""" from api.model.CategoryModel import "modelo"
-from api.serializers.CategorySerializer import "traerserializador"
- """
+from rest_framework import serializers, permissions, viewsets
 
+from api.model.CategoryModel import Category
+from api.serializers.CategorySerializer import CategorySerializer
 
-class CategoryListCreate(generics.ListCreateApiView):
-    pass
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = CategorySerializer
