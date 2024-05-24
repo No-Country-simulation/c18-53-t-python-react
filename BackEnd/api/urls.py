@@ -1,26 +1,18 @@
-from django.urls import path, include
+from rest_framework import routers
+
 from .view.ProductView import ProductViewSet
 from .view.CategoryView import CategoryViewSet
 from .view.BrandView import BrandViewSet
 from .view.SaleView import SaleViewSet
 from .view.SaleDetailView import SaleDetailViewSet
 
-urlpatterns = [
-    # path('auth/register',views.UserRegisterView.as_view(),name="user_register"),#Registrar un usuario
-    #path('api/product', ProductViewSet.as_view({'get': 'list', 'post': 'create'}), name="product")
-    path('product/', ProductViewSet.as_view({'get': 'list', 'post': 'create'}), name="product-list"),  
-    path('product/<int:pk>', ProductViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name="product"),
+router = routers.DefaultRouter()
 
-    path('category/', CategoryViewSet.as_view({'get': 'list', 'post': 'create'}), name='category-list'),
-    path('category/<int:pk>', CategoryViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}),name='category'),
+router.register('product', ProductViewSet, 'productList')
+router.register('category', CategoryViewSet, 'categoryList')
+router.register('brand', BrandViewSet, 'brandList')
+router.register('sale', SaleViewSet, 'saleList')
+router.register('saleDetail', SaleDetailViewSet, 'saleDetailList')
 
-    path('brand/', BrandViewSet.as_view({'get': 'list', 'post': 'create'}), name='brand-list'),
-    path('brand/<int:pk>', BrandViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}),name='brand'),
 
-    path('sale/', SaleViewSet.as_view({'get': 'list', 'post': 'create'}), name='sale-list'),
-    path('sale/<int:pk>', SaleViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}),name='sale'),
-
-    path('saledetail/', SaleDetailViewSet.as_view({'get': 'list', 'post': 'create'}), name='saledetail-list'),
-    path('saledetail/<int:pk>', SaleDetailViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}),name='saledetail'),
-
-]
+urlpatterns = router.urls
