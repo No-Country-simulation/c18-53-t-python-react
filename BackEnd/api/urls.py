@@ -3,6 +3,7 @@ from .view.ProductView import ProductViewSet
 from .view.CategoryView import CategoryViewSet
 from .view.BrandView import BrandViewSet
 from .view.SaleView import SaleViewSet
+from .view.SaleDetailView import SaleDetailViewSet
 
 urlpatterns = [
     # path('auth/register',views.UserRegisterView.as_view(),name="user_register"),#Registrar un usuario
@@ -18,5 +19,8 @@ urlpatterns = [
 
     path('sale/', SaleViewSet.as_view({'get': 'list', 'post': 'create'}), name='sale-list'),
     path('sale/<int:pk>', SaleViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}),name='sale'),
+
+    path('saledetail/', SaleDetailViewSet.as_view({'get': 'list', 'post': 'create'}), name='saledetail-list'),
+    path('saledetail/<int:pk>', SaleDetailViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}),name='saledetail'),
 
 ]
