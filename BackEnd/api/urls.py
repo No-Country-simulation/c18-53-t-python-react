@@ -2,6 +2,7 @@ from django.urls import path, include
 from .view.ProductView import ProductViewSet
 from .view.CategoryView import CategoryViewSet
 from .view.BrandView import BrandViewSet
+from .view.SaleView import SaleViewSet
 
 urlpatterns = [
     # path('auth/register',views.UserRegisterView.as_view(),name="user_register"),#Registrar un usuario
@@ -14,5 +15,8 @@ urlpatterns = [
 
     path('brand/', BrandViewSet.as_view({'get': 'list', 'post': 'create'}), name='brand-list'),
     path('brand/<int:pk>', BrandViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}),name='brand'),
+
+    path('sale/', SaleViewSet.as_view({'get': 'list', 'post': 'create'}), name='sale-list'),
+    path('sale/<int:pk>', SaleViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}),name='sale'),
 
 ]

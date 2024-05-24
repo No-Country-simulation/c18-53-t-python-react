@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path , include
 
+# Requerimientos que usa Swagger
 from django.urls import re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -40,6 +41,7 @@ urlpatterns = [
     path('api/', include('api.urls')),  # Incluir las URLs de api
     path('users/', include('user.urls')),  # Incluir las URLs de users
 
+    # Rutas que se usan para la documentacion
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
