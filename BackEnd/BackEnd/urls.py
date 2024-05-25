@@ -17,6 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path , include
 
+# Requerimientos de static
+from django.conf.urls.static import static
+from django.conf import settings
+
 # Requerimientos que usa Swagger
 from django.urls import re_path
 from rest_framework import permissions
@@ -45,3 +49,5 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
