@@ -2,11 +2,11 @@ import { GiShoppingCart } from "react-icons/gi";
 
 const ShoppingCartLogo = () => {
   return (
-    <div className="w-1/3 flex items-center">
-      <button>
-        <GiShoppingCart className="h-10 w-10" />
-        <span className="absolute bg-red-600 text-white px-2 py-1 rounded-full top-8 left-[1310px] text-xs">
-          0
+    <div className="flex items-center">
+      <button className="relative">
+        <GiShoppingCart size={28} />
+        <span className="absolute top-[-30%] right-[-30%] bg-[#A788FF] text-white rounded-full text-xs aspect-square w-4 h-auto flex items-center justify-center">
+          2
         </span>
       </button>
     </div>
