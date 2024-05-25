@@ -1,19 +1,19 @@
-import { FaSearch } from "react-icons/fa";
+import { CiSearch } from "react-icons/ci";
 
-const SearchBar = () => {
+const SearchBar = ({ fill }) => {
   return (
-    <div className="mx-auto flex items-center w-2/3">
-      <form className="flex flex-row bg-gray-100 border-2 border-gray-400 shadow-md w-full rounded-lg h-10 px-3">
-        <input
-          className="text-black text-lg font-bold border-none w-full bg-gray-100 outline-none"
-          type="text"
-          placeholder="buscar..."
-        />
-        <button className="cursor-pointer">
-          <FaSearch />
-        </button>
-      </form>
-    </div>
+    <div
+      className={`flex justify-between items-center border-[1px] border-gray-400 border-solid rounded-full bg-[#e6e5ff] text-md px-3 py-1 ${fill ? "w-full" : "w-[400px]"}  min-w-[300px]`}
+    >
+      <input
+        className="w-full h-full"
+        type="text"
+        placeholder="Buscar producto..."
+      />
+      <button className="">
+        <CiSearch size={24} />
+      </button>
+    </div >
   );
 };
 
