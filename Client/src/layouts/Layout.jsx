@@ -29,7 +29,7 @@ const Layout = () => {
         </section>
         <NavBar />
       </header>
-      <main className="mt-20 mx-auto max-w-7xl p-10 bg-white shadow">
+      <main className="">
         <Outlet />
       </main>
     </>
