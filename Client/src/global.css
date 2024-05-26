@@ -19,6 +19,17 @@ button {
   cursor: pointer;
 }
 
+.linear-gradient {
+  opacity: 0;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.9), transparent);
+  transition: 300ms ease;
+}
+
+
+.linear-gradient:hover {
+  opacity: 1;
+}
+
 .image-wrapper {
   display: flex;
   width: 100%;
@@ -44,4 +55,41 @@ img {
   background: #F5BA0F;
   height: 3px;
   width: 0;
+}
+
+.brand-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.brand-wrapper {
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.brand-wrapper img {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  height: auto;
+  transition: 200ms ease;
+}
+
+.brand-wrapper img:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .brand-gallery {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-gallery {
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  }
 }

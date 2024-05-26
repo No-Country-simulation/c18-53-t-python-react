@@ -4,6 +4,7 @@ import { router } from "./router";
 import { RouterProvider } from "react-router-dom";
 import "./index.css";
 import "./global.css"
+import '@splidejs/splide/dist/css/splide.min.css';
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
