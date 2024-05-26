@@ -3,14 +3,13 @@ import heroImgOne from '../assets/heroOne.webp'
 import heroImgTwo from '../assets/heroTwo.webp'
 import heroImgThree from '../assets/heroThree.webp'
 import heroImgFour from '../assets/heroFour.webp'
-import '@splidejs/splide/dist/css/splide.min.css';
 import Splide from '@splidejs/splide';
 
 const Hero = () => {
   const splideRef = useRef(null)
   useEffect(() => {
     if (splideRef.current) {
-      let splite = new Splide('.splide', {
+      let splite = new Splide(splideRef.current, {
         type: 'loop',
         autoplay: true,
         pagination: false,
@@ -31,13 +30,22 @@ const Hero = () => {
   }, [])
 
   return (
-    <div ref={splideRef} className="relative w-full flex flex-col">
-      <div className="splide">
+    <div className="relative w-full flex flex-col">
+      <div className='text-white z-10 absolute top-[50%] left-0 bottom-0 right-0 w-full h-fit px-[3%] max-w-[1440px] mx-auto translate-y-[-50%] flex flex-col gap-4'>
+        <h1 className='text-[5rem] max-w-[800px] leading-[1.2] '>The Future for Furniture Retailers</h1>
+        <p className='text-[18px] max-w-[800px] mb-4'>Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.</p>
+        <div className='flex gap-8'>
+          <button className='text-[18px] w-fit bg-[#434375] rounded-full py-2 px-6'>Ver todos los catalogos</button>
+          <button className='text-[18px] w-fit '><span className='border-b-[1px] border-b-white border-solid py-1'>Ver productos</span> </button>
+        </div>
+      </div>
+
+      <div id='splide1' ref={splideRef} className="splide">
         <div className="splide__track">
           <ul className="splide__list">
             <li className="splide__slide">
               <div className='image-wrapper'>
-                <img src={heroImgOne} alt="" loading="lazy" />
+                <img src={heroImgThree} alt="" loading="lazy" />
               </div>
             </li>
             <li className="splide__slide">
@@ -47,7 +55,7 @@ const Hero = () => {
             </li>
             <li className="splide__slide">
               <div className='image-wrapper'>
-                <img src={heroImgThree} alt="" loading="lazy" />
+                <img src={heroImgOne} alt="" loading="lazy" />
               </div>
             </li>
             <li className="splide__slide">
