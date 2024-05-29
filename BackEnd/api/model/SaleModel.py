@@ -2,7 +2,6 @@ from django.db import models
 from user.models import User
 
 
-
 class Sale(models.Model):
     user_name = models.ForeignKey(User, on_delete=models.CASCADE)
     sale_date = models.DateTimeField(auto_now_add=True)
