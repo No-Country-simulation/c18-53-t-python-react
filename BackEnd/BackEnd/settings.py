@@ -88,7 +88,7 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'beatica db',
+#         'NAME': 'beatica_db',
 #         'USER': 'postgres',
 #         'PASSWORD': 'password',
 #         'HOST': 'localhost',
