@@ -8,7 +8,7 @@ from django.conf import settings
 # Requerimientos que usa Swagger
 from django.urls import re_path
 from rest_framework import permissions
-from drf_yasg.views import get_schema_view
+from drf_yasg.views import get_schema_view as swagger_get
 from drf_yasg import openapi
 
 from rest_framework_simplejwt.views import (

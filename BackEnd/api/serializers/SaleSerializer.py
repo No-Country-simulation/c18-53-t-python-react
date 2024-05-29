@@ -5,4 +5,4 @@ class SaleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sale
-        fields = '__all__'
+        fields = ['sale_date','total']
