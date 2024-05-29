@@ -33,19 +33,21 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             user =serializer.save()
-            send_confirmation_email(user)
-            refresh = RefreshToken.for_user(user)
-            response_data = {
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-                'user': {
-                    'email': user.email,
-                    'first_name': user.first_name,
-                    'last_name': user.last_name,
-                    'user_type': user.user_type,
+            if user:
+                send_confirmation_email(user)
+                refresh = RefreshToken.for_user(user)
+                response_data = {
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                    'user': {
+                        'email': user.email,
+                        'first_name': user.first_name,
+                        'last_name': user.last_name,
+                        'user_type': user.user_type,
+                    }
                 }
-            }
-            return Response(response_data, status=status.HTTP_201_CREATED) 
+                return Response(response_data, status=status.HTTP_201_CREATED)
+            return Response({'message':'falta validad tu cuenta con tu correo'}) 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 

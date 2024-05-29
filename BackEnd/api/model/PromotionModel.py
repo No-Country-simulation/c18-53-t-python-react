@@ -1,9 +1,11 @@
 from django.db import models
+from .ProductModel import Product
 
 class Promotion(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     discount = models.DecimalField(max_digits=5, decimal_places=2)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     start_date = models.DateField()
     ending_date = models.DateTimeField()
 

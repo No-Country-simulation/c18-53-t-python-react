@@ -3,6 +3,8 @@ from django.db import models
 from django.conf import settings
 from django.core.files.storage import default_storage
 import os
+from .CategoryModel import Category
+from .BrandModel import Brand
 #from .model import Category
 
 class Product(models.Model):
@@ -14,7 +16,8 @@ class Product(models.Model):
     status=models.BooleanField(default=False)
     img=models.ImageField(upload_to='media')
     barcode = models.CharField(max_length=100, null=True, blank=True)
-    #category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category_id = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True)
+    branding = models.ForeignKey(Brand, on_delete=models.CASCADE, blank=True)
     created_at= models.DateTimeField(auto_now=True)
     updated_at= models.DateTimeField(auto_now=True)
 

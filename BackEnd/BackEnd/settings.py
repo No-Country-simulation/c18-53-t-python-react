@@ -168,14 +168,8 @@ AUTHENTICATION_BACKENDS = (
 
 
 #mailtrap
-EMAIL_BACKEND = "anymail.backends.mailtrap.EmailBackend"
-""" ANYMAIL = {
-    "MAILTRAP_API_KEY": "your-mailtrap-api-key",
-    "MAILTRAP_INBOX_ID": "your-mailtrap-inbox-id",
-} """
-
 DEFAULT_FROM_EMAIL = 'kenitdota@gmail.com'
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
 EMAIL_HOST_USER = '0e7d56fe23d0b4'
 EMAIL_HOST_PASSWORD = 'e82798f84135a2'
