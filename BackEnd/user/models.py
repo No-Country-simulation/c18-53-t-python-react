@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager , PermissionsMixin
 from django.db import models
+import uuid
 
 # Create your models here.
 
@@ -30,6 +31,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('client', 'Client'),
         ('admin', 'Admin'),
     )
+    confirmation_token = models.UUIDField(default=uuid.uuid4, editable=False)
+    is_email_confirmed = models.BooleanField(default=False)
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)

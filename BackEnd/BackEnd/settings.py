@@ -43,6 +43,7 @@ INSTALLED_APPS =[
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'drf_yasg',
+    'anymail',
 ]
 
 MIDDLEWARE = [
@@ -164,3 +165,19 @@ SIMPLE_JWT = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
+
+
+#mailtrap
+EMAIL_BACKEND = "anymail.backends.mailtrap.EmailBackend"
+""" ANYMAIL = {
+    "MAILTRAP_API_KEY": "your-mailtrap-api-key",
+    "MAILTRAP_INBOX_ID": "your-mailtrap-inbox-id",
+} """
+
+DEFAULT_FROM_EMAIL = 'kenitdota@gmail.com'
+
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '0e7d56fe23d0b4'
+EMAIL_HOST_PASSWORD = 'e82798f84135a2'
+EMAIL_PORT = '2525'
+EMAIL_USE_TLS = True

@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from rest_framework import status , generics
@@ -7,10 +8,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
 from .UserSerializer import UserSerializer , LoginSerializer , LogoutSerializer
+from user.utils import send_confirmation_email
 
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes =[IsAuthenticated]
-
+    permission_classes =[]
     serializer_class = UserSerializer
     def get_queryset(self, pk=None):
         if pk is None:
@@ -31,8 +32,20 @@ class UserViewSet(viewsets.ModelViewSet):
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response({'message':'Usuario registrado correctamente!'}, status=status.HTTP_201_CREATED)
+            user =serializer.save()
+            send_confirmation_email(user)
+            refresh = RefreshToken.for_user(user)
+            response_data = {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'user': {
+                    'email': user.email,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'user_type': user.user_type,
+                }
+            }
+            return Response(response_data, status=status.HTTP_201_CREATED) 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
@@ -90,3 +103,15 @@ class LogoutView(generics.DestroyAPIView):
         serializer.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class ConfirmEmailView(APIView):
+    def get(self, request, email, token, *args, **kwargs):
+        try:
+            user = User.objects.get(email=email, confirmation_token=token)
+            if user:
+                user.is_email_confirmed = True
+                user.confirmation_token = None  # Elimina el token de confirmación después de usarlo
+                user.save()
+                return Response({"detail": "Email confirmed successfully."}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({"detail": "Invalid confirmation link."}, status=status.HTTP_400_BAD_REQUEST)
