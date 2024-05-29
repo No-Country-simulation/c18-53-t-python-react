@@ -1,48 +1,92 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.exceptions import NotFound
+from rest_framework import status , generics
+from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
-from .UserSerializer import UserSerializer
+from .UserSerializer import UserSerializer , LoginSerializer , LogoutSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
+    permission_classes =[IsAuthenticated]
+
     serializer_class = UserSerializer
+    def get_queryset(self, pk=None):
+        if pk is None:
+            return self.get_serializer().Meta.model.objects.filter(is_active= True, user_type='client')
+        else :
+            return self.get_serializer().Meta.model.objects.filter(id=pk, is_active=True , user_type='client').first()
+        
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        queryset = User.objects.all()
+        user = queryset.filter(id=pk).first()
+        if user is None:
+            raise NotFound(detail={"error": f"No user with ID {pk} matches the given query."})
+        if not user.is_active:
+            raise NotFound(detail={"error": f"User with ID {pk} is deactivated."})
+        return user
+        
+    def create(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':'Usuario registrado correctamente!'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
-    def get_queryset(self):
-        # Aquí puedes personalizar tu consulta según tus necesidades
-        queryset = User.objects.filter(user_type='client')
-        return queryset
+    def update(self, request, pk=None):
+        if self.get_queryset(pk):
+            customer_serializer =self.serializer_class(self.get_queryset(pk),data= request.data, partial=True)
+            if customer_serializer.is_valid():
+                customer_serializer.save()
+                print(request.data)
+                return Response(customer_serializer.data , status= status.HTTP_200_OK)
+            return Response(customer_serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
-    # GET - Lista todos los usuarios
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+    def destroy(self, request, pk=None):
+        customer = self.get_queryset().filter(id=pk).first()
+        if customer:
+            customer.is_active = False
+            customer.save()
+            return Response({'message': 'Customer eliminado correctamente'}, status=status.HTTP_200_OK)
+        return Response({'error':'No existe un customer con esos datos'}, status=status.HTTP_400_BAD_REQUEST)
+    
 
-    # POST - Crea un nuevo usuario
+class LoginView(generics.CreateAPIView):
+    permission_classes =[]
+    serializer_class = LoginSerializer
+
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = LoginSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        
+        if user.is_active and user.user_type == 'client':
+            refresh = RefreshToken.for_user(user)
 
-    # GET - Obtiene un usuario específico por su ID
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+            response_data = {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'user': {
+                    'email': user.email,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'user_type': user.user_type,
+                }
+            }
 
-    # PUT - Actualiza un usuario específico por su ID
-    def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(response_data, status=status.HTTP_200_OK)
+        else:
+            return Response({"detail": "User account is not active."}, status=status.HTTP_401_UNAUTHORIZED)
+        
+class LogoutView(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated]
 
-    # DELETE - Elimina un usuario específico por su ID
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        instance.delete()
+    def post(self, request, *args, **kwargs):
+        serializer = LogoutSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
         return Response(status=status.HTTP_204_NO_CONTENT)
