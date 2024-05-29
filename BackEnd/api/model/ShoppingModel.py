@@ -5,10 +5,10 @@ from api.model.ProductModel import Product
 
 class Shopping(models.Model):
     user_name = models.ForeignKey(User, on_delete=models.CASCADE)
-    products = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user_name
+        return f"{self.user_name.first_name}" 
     
 

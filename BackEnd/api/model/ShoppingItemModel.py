@@ -9,4 +9,4 @@ class ShoppingItem(models.Model):
     quantity = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.product
+        return f"{self.quantity} x {self.product_id.name}"

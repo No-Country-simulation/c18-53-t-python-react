@@ -16,7 +16,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-schema_view = get_schema_view(
+schema_view = swagger_get(
    openapi.Info(
       title="Beautica API",
       default_version='v1',

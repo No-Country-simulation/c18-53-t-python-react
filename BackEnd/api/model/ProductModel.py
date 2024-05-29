@@ -3,7 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.core.files.storage import default_storage
 import os
-#from .model import Category
+#from .model import Categorygit p
 from .CategoryModel import Category
 from .BrandModel import Brand
 
@@ -16,7 +16,7 @@ class Product(models.Model):
     price=models.FloatField(default=0.0)
     rating=models.FloatField(default=0.0)
     status=models.BooleanField(default=False)
-    img=models.ImageField(upload_to='img_product')
+    img=models.ImageField(upload_to='img_product', blank=True, null=True)
     barcode = models.CharField(max_length=100, null=True, blank=True)
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True)
     branding = models.ForeignKey(Brand, on_delete=models.CASCADE, blank=True)
@@ -31,3 +31,6 @@ class Product(models.Model):
             if old_product.img.path != self.img.path and old_product.img.path != full_img_path:
                 default_storage.delete(old_product.img.path)
         super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return self.name
