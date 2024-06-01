@@ -1,10 +1,12 @@
 from rest_framework import serializers
 from api.model.ProductModel import Product
 
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
+from api.model.CategoryModel import Category
+from api.model.BrandModel import Brand
 
 class ProductSerializer(serializers.ModelSerializer):
+    img = serializers.ImageField(max_length=None, use_url=True)
+
     class Meta:
         model= Product
         # fields = '__all__'
