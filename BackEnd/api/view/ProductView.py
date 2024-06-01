@@ -9,10 +9,17 @@ from api.serializers.ProductSerializer import ProductSerializer
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+from rest_framework.parsers import MultiPartParser, FormParser
+
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = ProductSerializer
+    parser_classes = [MultiPartParser, FormParser]
+
+    def perform_create(self, serializer):
+        serializer.save(img=self.request.data.get('img'))
+
 
     @swagger_auto_schema(tags=["Productos"])
     def list(self, request, *args, **kwargs):
