@@ -12,3 +12,4 @@ class ProductSerializer(serializers.ModelSerializer):
         # fields = '__all__'
         fields = ['id','name','description','stock','price','rating','status','img','barcode','category_id','branding']
 
+    

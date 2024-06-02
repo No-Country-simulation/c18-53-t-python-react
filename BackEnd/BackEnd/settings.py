@@ -37,6 +37,7 @@ INSTALLED_APPS =[
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "corsheaders",
     'api',
     'user',
     'rest_framework',
@@ -49,6 +50,7 @@ INSTALLED_APPS =[
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -175,3 +177,8 @@ EMAIL_HOST_USER = '0e7d56fe23d0b4'
 EMAIL_HOST_PASSWORD = 'e82798f84135a2'
 EMAIL_PORT = '2525'
 EMAIL_USE_TLS = True
+
+# Config para conectar con frontend
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:3000",
+]
